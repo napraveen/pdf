@@ -25,9 +25,16 @@ const Home = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:4000/api/${userDetails.year}/${userDetails.department}/${userDetails.section}/classdetails`
-        );
+        let response = 0;
+        if (userDetails.category === 'mentor') {
+          response = await fetch(
+            `http://localhost:4000/api/${userDetails.year}/${userDetails.department}/${userDetails.section}/classdetails`
+          );
+        } else if (userDetails.category === 'hod') {
+          response = await fetch(
+            `http://localhost:4000/api/${userDetails.year}/${userDetails.department}/departmentdetails`
+          );
+        }
         if (response.ok) {
           const studentsData = await response.json();
           setData(studentsData); // Update state with fetched data

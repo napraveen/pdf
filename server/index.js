@@ -246,6 +246,18 @@ app.get('/api/:year/:department/:section/classdetails', async (req, res) => {
   res.send(collegestudents);
 });
 
+app.get('/api/:year/:department/departmentdetails', async (req, res) => {
+  const year = req.params.year;
+  const department = req.params.department;
+  const dep = await Student.findOne({
+    department: department,
+  });
+
+  const sectionToLoop = dep.students[0][year][0];
+  console.log(sectionToLoop);
+  res.status(200).json(sectionToLoop);
+});
+
 app.listen(4000, () => {
   console.log('Server running on 4000');
 });
