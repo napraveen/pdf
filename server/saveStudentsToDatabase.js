@@ -1,0 +1,356 @@
+const { Student } = require('./db');
+const saveStudentsToDatabase = async () => {
+  try {
+    const departments = [
+      'ECE',
+      'MECH',
+      'EEE',
+      'IT',
+      'CSE',
+      'ADS',
+      'AML',
+      'CHEM',
+      'BIO',
+    ];
+    departments.map(async (item) => {
+      const studentsResult = await Student.create({
+        department: item,
+        students: [
+          {
+            I: [
+              {
+                A: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '1',
+                    departmentId: item + 'A',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '1',
+                    departmentId: item + 'A',
+                  },
+                ],
+                B: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '1',
+                    departmentId: item + 'B',
+                  },
+                  {
+                    name: 'xyz a',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567890',
+                    year: '1',
+                    departmentId: item + 'B',
+                  },
+                  {
+                    name: 'mno p',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567892',
+                    mobileNo: '1234567890',
+                    year: '1',
+                    departmentId: item + 'B',
+                  },
+                  {
+                    name: 'qrs t',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567893',
+                    mobileNo: '1234567890',
+                    year: '1',
+                    departmentId: item + 'B',
+                  },
+                  {
+                    name: 'uvw x',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567894',
+                    mobileNo: '1234567890',
+                    year: '1',
+                    departmentId: item + 'B',
+                  },
+
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21CD123',
+                    registerNo: '1234567895',
+                    mobileNo: '1234567891',
+                    year: '1',
+                    departmentId: item + 'B',
+                  },
+                ],
+                C: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '1',
+                    departmentId: item + 'C',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '1',
+                    departmentId: item + 'C',
+                  },
+                ],
+              },
+            ],
+            II: [
+              {
+                A: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '2',
+                    departmentId: item + 'A',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '2',
+                    departmentId: item + 'A',
+                  },
+                ],
+                B: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '2',
+                    departmentId: item + 'B',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '2',
+                    departmentId: item + 'B',
+                  },
+                ],
+                C: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '2',
+                    departmentId: item + 'C',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '2',
+                    departmentId: item + 'C',
+                  },
+                ],
+              },
+            ],
+
+            III: [
+              {
+                A: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '3',
+                    departmentId: item + 'A',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '3',
+                    departmentId: item + 'A',
+                  },
+                ],
+                B: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '3',
+                    departmentId: item + 'B',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '3',
+                    departmentId: item + 'B',
+                  },
+                ],
+                C: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '3',
+                    departmentId: item + 'C',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '3',
+                    departmentId: item + 'C',
+                  },
+                ],
+              },
+            ],
+
+            IV: [
+              {
+                A: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '4',
+                    departmentId: item + 'A',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'A',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '4',
+                    departmentId: item + 'A',
+                  },
+                ],
+                B: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '4',
+                    departmentId: item + 'B',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'B',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '4',
+                    departmentId: item + 'B',
+                  },
+                ],
+                C: [
+                  {
+                    name: 'ABC D',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21AB123',
+                    registerNo: '1234567890',
+                    mobileNo: '1234567890',
+                    year: '4',
+                    departmentId: item + 'C',
+                  },
+                  {
+                    name: 'EFG H',
+                    department: item,
+                    section: 'C',
+                    rollNo: '21CD123',
+                    registerNo: '1234567891',
+                    mobileNo: '1234567891',
+                    year: '4',
+                    departmentId: item + 'C',
+                  },
+                ],
+              },
+            ],
+            //   },
+            // ],
+          },
+        ],
+      });
+    });
+
+    console.log('Students saved successfully.');
+  } catch (error) {
+    console.error('Error saving Students:', error);
+  }
+};
+
+module.exports = saveStudentsToDatabase;
