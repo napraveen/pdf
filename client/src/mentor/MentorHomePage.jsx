@@ -3,14 +3,14 @@ import GetUserDetails from '../functions/GetUserDetails';
 import { useEffect, useState } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-const MentorHomePage = (
+const MentorHomePage = ({
   data,
   department,
   handleSubmit,
   handleCheckboxChange,
   studentAttendance,
-  userDetails
-) => {
+  userDetails,
+}) => {
   let sno = 1;
   const handleDownload = () => {
     const content = document.getElementById('table-to-download');
@@ -45,57 +45,52 @@ const MentorHomePage = (
     (item) => item.presentDates[item.presentDates.length - 1] === newDate
   );
   return (
-    <div>
-      <div className="home-right">
-        <div className="home-right-header">
-          <h1>
-            {' '}
-            {userDetails.department} {userDetails.section} Today's Report
-          </h1>
-        </div>
-        <div
-          className="home-view-today-report"
-          onClick={handleTodaysReportClick}
-        >
-          <p>View Today Report</p>
-        </div>
-        <div className="home-today-report" style={todayReportClass}>
-          <button onClick={handleDownload} className="home-download-table">
-            Download PDF
-          </button>
-          <div id="table-to-download">
-            <table className="home-today-table">
-              <tr>
-                <th>S.No</th>
-                <th>Name</th>
-                <th>Department</th>
-                <th>Section</th>
-                <th>Roll No</th>
-                <th>Present?</th>
-              </tr>
+    <div className="home-right">
+      <div className="home-right-header">
+        <h1>
+          {' '}
+          {userDetails.department} {userDetails.section} Today's Report
+        </h1>
+      </div>
+      <div className="home-view-today-report" onClick={handleTodaysReportClick}>
+        <p>View Today Report</p>
+      </div>
+      <div className="home-today-report" style={todayReportClass}>
+        <button onClick={handleDownload} className="home-download-table">
+          Download PDF
+        </button>
+        <div id="table-to-download">
+          <table className="home-today-table">
+            <tr>
+              <th>S.No</th>
+              <th>Name</th>
+              <th>Department</th>
+              <th>Section</th>
+              <th>Roll No</th>
+              <th>Present?</th>
+            </tr>
 
-              {data.map((item) => (
-                <tr key={item._id}>
-                  <td>{sno++}</td>
-                  <td>{item.name}</td>
-                  <td>{item.department}</td>
-                  <td>{item.section}</td>
-                  <td>{item.rollNo}</td>
-                  {todayPresentStudents.some(
-                    (student) => student._id === item._id
-                  ) ? (
-                    <td style={{ backgroundColor: 'rgb(146, 255, 132)' }}>
-                      Present
-                    </td>
-                  ) : (
-                    <td style={{ backgroundColor: 'rgb(254, 158, 158)' }}>
-                      Absent
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </table>
-          </div>
+            {data.map((item) => (
+              <tr key={item._id}>
+                <td>{sno++}</td>
+                <td>{item.name}</td>
+                <td>{item.department}</td>
+                <td>{item.section}</td>
+                <td>{item.rollNo}</td>
+                {todayPresentStudents.some(
+                  (student) => student._id === item._id
+                ) ? (
+                  <td style={{ backgroundColor: 'rgb(146, 255, 132)' }}>
+                    Present
+                  </td>
+                ) : (
+                  <td style={{ backgroundColor: 'rgb(254, 158, 158)' }}>
+                    Absent
+                  </td>
+                )}
+              </tr>
+            ))}
+          </table>
         </div>
       </div>
     </div>
