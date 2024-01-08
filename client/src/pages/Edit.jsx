@@ -67,6 +67,9 @@ const Home = () => {
     rollNo: '',
     registerNo: '',
     mobileNo: '',
+    email: '',
+    username: '',
+    password: '',
   });
 
   const handleSubmitAddStudent = async (e) => {
@@ -75,8 +78,20 @@ const Home = () => {
       await axios.post(
         `http://localhost:4000/api/${userDetails.year}/${userDetails.department}/${userDetails.section}/addstudents`,
         studentData
-      ); // Assuming your Express server is running at the same origin
-      // Clear form after successful submission
+      );
+      const { username, password, email } = studentData;
+
+      // Send username, password, and email in the same structure as in Signup component
+      const userData = {
+        email,
+        password,
+        username,
+      };
+
+      await axios.post('http://localhost:4000/auth/signup', userData, {
+        withCredentials: true,
+      });
+      // const { success, message } = data;
       setStudentData({
         name: '',
         year: '',
@@ -86,6 +101,9 @@ const Home = () => {
         rollNo: '',
         registerNo: '',
         mobileNo: '',
+        email: '',
+        username: '',
+        password: '',
       });
     } catch (err) {
       console.error('Error adding student:', err);
@@ -181,6 +199,32 @@ const Home = () => {
                         value={studentData.mobileNo}
                         onChange={handleChange}
                         placeholder="Mobile No"
+                      />
+
+                      <input
+                        type="email"
+                        name="email"
+                        value={studentData.email}
+                        className="signup-email"
+                        placeholder="Enter your email"
+                        onChange={handleChange}
+                      />
+
+                      <input
+                        type="text"
+                        name="username"
+                        className="signup-username"
+                        value={studentData.username}
+                        placeholder="Enter your username"
+                        onChange={handleChange}
+                      />
+                      <input
+                        type="password"
+                        name="password"
+                        className="signup-password"
+                        value={studentData.password}
+                        placeholder="Enter your password"
+                        onChange={handleChange}
                       />
                       <button type="submit">Submit</button>
                     </form>
