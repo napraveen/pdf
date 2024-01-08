@@ -67,6 +67,16 @@ router.post(
         year: usernameArray[1],
         department: usernameArray[2],
       });
+    } else if (usernameArray[0] === 'student') {
+      const user = await User.create({
+        email,
+        username,
+        password: hashedPassword,
+        category: 'student',
+        year: usernameArray[1],
+        department: usernameArray[2],
+        section: usernameArray[3],
+      });
     } else {
       const user = await User.create({
         email,
