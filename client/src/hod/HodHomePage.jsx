@@ -11,9 +11,8 @@ const HodHomePage = ({
   studentAttendance,
   userDetails,
 }) => {
-  let sno = 1;
-  const handleDownload = () => {
-    const content = document.getElementById('table-to-download');
+  const handleDownload = (sectionKey) => {
+    const content = document.getElementById(`table-to-download-${sectionKey}`); // Use a unique identifier
 
     if (!content) {
       console.error('Table element not found!');
@@ -27,7 +26,7 @@ const HodHomePage = ({
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save('table_content.pdf');
+      pdf.save(`table_content_${sectionKey}.pdf`);
     });
   };
   const [isTodayReportClicked, setTodayReportClicked] = useState(false);
@@ -61,10 +60,13 @@ const HodHomePage = ({
       {filteredSections.map((sectionKey) =>
         Array.isArray(data[sectionKey]) ? (
           <div className="home-today-report" style={todayReportClass}>
-            <button onClick={handleDownload} className="home-download-table">
+            <button
+              onClick={() => handleDownload(sectionKey)}
+              className="home-download-table"
+            >
               Download PDF
             </button>
-            <div id="table-to-download">
+            <div id={`table-to-download-${sectionKey}`}>
               <table className="home-today-table">
                 <tr>
                   <th>S.No</th>
@@ -77,7 +79,7 @@ const HodHomePage = ({
 
                 {data[sectionKey].map((item, index) => (
                   <tr key={item._id}>
-                    <td>{sno++}</td>
+                    <td>{index + 1}</td>
                     <td>{item.name}</td>
                     <td>{item.department}</td>
                     <td>{item.section}</td>
