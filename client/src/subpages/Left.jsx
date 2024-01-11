@@ -20,6 +20,8 @@ const Left = ({
   menu3,
   menu4,
   menu5,
+  link1,
+  link2,
 }) => {
   const { userDetails } = GetUserDetails();
   return (
@@ -58,7 +60,7 @@ const Left = ({
             <p style={{ color: iconText1 }}>{menu1}</p>
           </div>
         </Link>
-        <Link to="/attendance">
+        <Link to={link2}>
           <div
             className="home-group-icon-text"
             style={{ backgroundColor: iconBg2 }}

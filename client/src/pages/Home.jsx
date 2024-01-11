@@ -75,6 +75,12 @@ const Home = () => {
                   menu3="Edit"
                   menu4="Calendar"
                   menu5="Settings"
+                  link1="/"
+                  link2={
+                    userDetails.category === 'student'
+                      ? '/leaveform'
+                      : '/attendance'
+                  }
                 />
                 <HomeRight
                   data={data}

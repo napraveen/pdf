@@ -145,6 +145,12 @@ const Home = () => {
                   menu3="Edit"
                   menu4="Calendar"
                   menu5="Settings"
+                  link1="/"
+                  link2={
+                    userDetails.category === 'student'
+                      ? '/leaveform'
+                      : '/attendance'
+                  }
                 />
                 <div className="edit-right">
                   <div className="edit-add-a-student" onClick={addStudentClass}>
