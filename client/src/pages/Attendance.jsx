@@ -117,7 +117,11 @@ const Attendance = () => {
                   iconBg5=""
                   iconText5=""
                   menu1="Dashboard"
-                  menu2="Attendance"
+                  menu2={
+                    userDetails.category === 'student'
+                      ? 'Leave Form'
+                      : 'DashBoard'
+                  }
                   menu3="Edit"
                   menu4="Calendar"
                   menu5="Settings"

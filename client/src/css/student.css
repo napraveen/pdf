@@ -1,5 +1,6 @@
 .student-dashboard-container {
   margin-left: 20%;
+  margin-top: 20px;
 }
 
 .student-dashboard-attendance {
@@ -9,11 +10,13 @@
 
   width: 80vw;
   height: 30vh;
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 .student-dashboard-present-days {
-  background-color: rgb(235, 31, 31);
+  /* background-color: rgb(235, 31, 31); */
+  background-color: rgb(200, 250, 206);
+  border: 2px solid black;
   width: 30vw;
   height: 20vh;
   display: flex;
@@ -28,7 +31,9 @@
 }
 
 .student-dashboard-absent-days {
-  background-color: rgb(228, 109, 109);
+  /* background-color: rgb(228, 109, 109); */
+  background-color: rgba(237, 177, 177, 0.779);
+  border: 2px solid black;
   width: 30vw;
   height: 20vh;
   display: flex;
