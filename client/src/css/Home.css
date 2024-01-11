@@ -277,10 +277,12 @@ input[type='checkbox'] {
 
   /* justify-content: center; */
 }
-.home-view-today-report p {
+.home-view-today-report p,
+.home-view-section-report p {
   color: white;
 }
-.home-view-today-report {
+.home-view-today-report,
+.home-view-section-report {
   margin-bottom: 20px;
   /* margin-left: 30px; */
 }
@@ -292,6 +294,20 @@ input[type='checkbox'] {
 
 .home-view-today-report {
   margin-top: 60px;
+  width: 90%;
+  height: 60px;
+  background-color: rgb(52, 52, 51);
+  border-radius: 5px;
+  margin-left: 20px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+.home-view-section-report {
+  margin-top: 20px;
   width: 90%;
   height: 60px;
   background-color: rgb(52, 52, 51);

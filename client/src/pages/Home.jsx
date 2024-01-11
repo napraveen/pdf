@@ -18,7 +18,7 @@ const Home = () => {
   const handleCheckboxChange = (id) => {
     setStudentAttendance({
       ...studentAttendance,
-      [id]: !studentAttendance[id], // Toggle the checked status for the student
+      [id]: !studentAttendance[id],
     });
   };
 
