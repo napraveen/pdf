@@ -116,6 +116,11 @@ const Attendance = () => {
                   iconText4=""
                   iconBg5=""
                   iconText5=""
+                  menu1="Dashboard"
+                  menu2="Attendance"
+                  menu3="Edit"
+                  menu4="Calendar"
+                  menu5="Settings"
                 />
                 <AttendanceRight
                   department={data}

@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import MentorHomePage from '../mentor/MentorHomePage';
 import HodHomePage from '../hod/HodHomePage';
+import StudentHomePage from '../student/StudentHomePage';
 const HomeRight = ({
   data,
   department,
@@ -19,9 +20,10 @@ const HomeRight = ({
         <MentorHomePage data={data} userDetails={userDetails} />
       ) : userDetails.category === 'hod' ? (
         <HodHomePage data={data} userDetails={userDetails} />
+      ) : userDetails.category === 'student' ? (
+        <StudentHomePage data={data} userDetails={userDetails} />
       ) : (
-        // <MentorHomePage data={data} userDetails={userDetails} />
-        <h1>dsf</h1>
+        <h1>hi</h1>
       )}
     </>
   );

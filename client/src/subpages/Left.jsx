@@ -15,6 +15,11 @@ const Left = ({
   iconText4,
   iconBg5,
   iconText5,
+  menu1,
+  menu2,
+  menu3,
+  menu4,
+  menu5,
 }) => {
   const { userDetails } = GetUserDetails();
   return (
@@ -50,7 +55,7 @@ const Left = ({
                 <MaterialIcon icon="dashboard" id="home-icon-color-1" />
               </span>
             </div>
-            <p style={{ color: iconText1 }}>Dashboard</p>
+            <p style={{ color: iconText1 }}>{menu1}</p>
           </div>
         </Link>
         <Link to="/attendance">
@@ -64,7 +69,7 @@ const Left = ({
                 <MaterialIcon icon="person" id="home-icon-color-2" />
               </span>
             </div>
-            <p style={{ color: iconText2 }}>Attendance</p>
+            <p style={{ color: iconText2 }}>{menu2}</p>
           </div>
         </Link>
         <Link to="/edit">
@@ -78,7 +83,7 @@ const Left = ({
                 <MaterialIcon icon="edit" id="home-icon-color-4" />
               </span>
             </div>
-            <p style={{ color: iconText3 }}>Edit</p>
+            <p style={{ color: iconText3 }}>{menu3}</p>
           </div>
         </Link>
         <Link to="#">
@@ -92,7 +97,7 @@ const Left = ({
                 <MaterialIcon icon="calendar_today" id="home-icon-color-3" />
               </span>
             </div>
-            <p style={{ color: iconText4 }}>Calendar</p>
+            <p style={{ color: iconText4 }}>{menu4}</p>
           </div>
         </Link>
 
@@ -107,7 +112,7 @@ const Left = ({
                 <MaterialIcon icon="settings" id="home-icon-color-4" />
               </span>
             </div>
-            <p style={{ color: iconText5 }}>Settings</p>
+            <p style={{ color: iconText5 }}>{menu5}</p>
           </div>
         </Link>
       </div>
