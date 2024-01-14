@@ -4,11 +4,21 @@ const app = express();
 const { User } = require('./db');
 const cors = require('cors');
 const mongoose = require('mongoose');
+
+//---- To check ----
+// const bodyParser = require("body-parser")
+
 const cookieParser = require('cookie-parser');
 // const data = require('./data');
-const { Student, submittedDates } = require('./db');
+const { Student, submittedDates, LeaveForm } = require('./db');
 const { use } = require('./routes/auth');
+const { addListener } = require('nodemon');
 app.use(express.json());
+
+//---- To check ----
+// app.use(bodyParser.urlencoded({extended:true}))
+// app.use(bodyParser.json)
+
 // const saveStudentsToDatabase = require('./saveStudentsToDatabase');
 // saveStudentsToDatabase();
 app.use(
@@ -38,6 +48,7 @@ app.get('/api/user/:username', async (req, res) => {
     console.log(user);
   } catch (error) {
     console.error(error);
+
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -281,6 +292,35 @@ app.get(
     res.status(200).json(student);
   }
 );
+
+app.post(
+  '/api/:year/:department/:section/submitleaveform',
+  async (req, res) => {
+    try {
+      const { year, department, section, email } = req.body;
+
+      let dep = await LeaveForm.findOne({ department });
+
+      if (!dep) {
+        dep = await LeaveForm.create({ department });
+      }
+
+      dep.students.push({
+        year,
+        department,
+        section,
+        email,
+      });
+
+      await dep.save();
+
+      res.status(201).json({ message: 'Student added successfully!' });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
+
 app.listen(4000, () => {
   console.log('Server running on 4000');
 });

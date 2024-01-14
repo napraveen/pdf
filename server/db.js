@@ -965,6 +965,33 @@ const studentSchema = new mongoose.Schema({
   ],
 });
 
+const leaveFormSchema = mongoose.Schema({
+  department: {
+    type: String,
+    required: true,
+  },
+  students: [
+    {
+      year: {
+        type: String,
+        required: false,
+      },
+      department: {
+        type: String,
+        required: false,
+      },
+      section: {
+        type: String,
+        required: false,
+      },
+      email: {
+        type: String,
+        required: false,
+      },
+    },
+  ],
+});
+
 const submittedDatesSchema = mongoose.Schema({
   departmentId: {
     type: String,
@@ -1014,4 +1041,12 @@ const departments = [
 
 const User = mongoose.model('User', userSchema);
 const Student = mongoose.model('Student', studentSchema);
-module.exports = { User, publicPosts, privatePosts, Student, submittedDates };
+const LeaveForm = mongoose.model('LeaveForm', leaveFormSchema);
+module.exports = {
+  User,
+  publicPosts,
+  privatePosts,
+  Student,
+  submittedDates,
+  LeaveForm,
+};
