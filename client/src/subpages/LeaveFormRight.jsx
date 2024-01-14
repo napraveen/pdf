@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import '../css/leaveform.css';
+import { useEffect } from 'react';
 import GetUserDetails from '../functions/GetUserDetails';
 import Left from '../subpages/Left';
 import { Link } from 'react-router-dom';
-import '../css/edit.css';
 import axios from 'axios';
 const LeaveFormRight = () => {
   const { userDetails } = GetUserDetails();
@@ -22,7 +22,15 @@ const LeaveFormRight = () => {
     section: '',
     email: '',
   });
-
+  useEffect(() => {
+    // Update studentData when userDetails change
+    setStudentData({
+      year: userDetails?.year ?? '',
+      department: userDetails?.department ?? '',
+      section: userDetails?.section ?? '',
+      email: '',
+    });
+  }, [userDetails]);
   const handleSubmitAddStudent = async (e) => {
     e.preventDefault();
     try {
