@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import Attendance from './pages/Attendance';
 import Edit from './pages/Edit';
 import LeaveForm from './pages/LeaveForm';
+import LeaveFormMentor from './mentor/LeaveFormMentor';
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="/leaveform" element={<LeaveForm />} />
+        <Route path="/leaveform-mentor" element={<LeaveFormMentor />} />
       </Routes>
     </div>
   );

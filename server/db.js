@@ -988,6 +988,11 @@ const leaveFormSchema = mongoose.Schema({
         type: String,
         required: false,
       },
+      file: {
+        data: Buffer,
+        contentType: String,
+        filename: String,
+      },
     },
   ],
 });

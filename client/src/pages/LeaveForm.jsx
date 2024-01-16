@@ -26,6 +26,7 @@ const LeaveForm = () => {
             menu3="Edit"
             menu4="Calendar"
             menu5="Settings"
+            menu6={userDetails.category === 'mentor' ? 'Leave Form' : ''}
             link1="/"
             link2={
               userDetails.category === 'student' ? '/leaveform' : '/attendance'

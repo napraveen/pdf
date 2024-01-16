@@ -14,12 +14,15 @@ const Left = ({
   iconBg4,
   iconText4,
   iconBg5,
+  iconBg6,
   iconText5,
+  iconText6,
   menu1,
   menu2,
   menu3,
   menu4,
   menu5,
+  menu6,
   link1,
   link2,
 }) => {
@@ -117,6 +120,24 @@ const Left = ({
             <p style={{ color: iconText5 }}>{menu5}</p>
           </div>
         </Link>
+        {menu6 ? (
+          <Link to="/leaveform-mentor">
+            <div
+              className="home-group-icon-text"
+              style={{ backgroundColor: iconBg6 }}
+              title="LeaveForm"
+            >
+              <div className="home-icons-bg">
+                <span className="home-material-symbols-outlined">
+                  <MaterialIcon icon="person" id="home-icon-color-2" />
+                </span>
+              </div>
+              <p style={{ color: iconText6 }}>{menu6}</p>
+            </div>
+          </Link>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

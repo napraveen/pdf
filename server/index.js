@@ -4,16 +4,19 @@ const app = express();
 const { User } = require('./db');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
+const multer = require('multer');
+const path = require('path');
 //---- To check ----
 // const bodyParser = require("body-parser")
 
 const cookieParser = require('cookie-parser');
 // const data = require('./data');
 const { Student, submittedDates, LeaveForm } = require('./db');
+const Grid = require('gridfs-stream');
 const { use } = require('./routes/auth');
 const { addListener } = require('nodemon');
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //---- To check ----
 // app.use(bodyParser.urlencoded({extended:true}))
@@ -293,8 +296,59 @@ app.get(
   }
 );
 
+// app.post(
+//   '/api/:year/:department/:section/submitleaveform',
+//   async (req, res) => {
+//     try {
+//       const { year, department, section, email } = req.body;
+
+//       let dep = await LeaveForm.findOne({ department });
+
+//       if (!dep) {
+//         dep = await LeaveForm.create({ department });
+//       }
+
+//       dep.students.push({
+//         year,
+//         department,
+//         section,
+//         email,
+//       });
+
+//       await dep.save();
+
+//       res.status(201).json({ message: 'Student added successfully!' });
+//     } catch (err) {
+//       res.status(500).json({ error: err.message });
+//     }
+//   }
+// );
+const conn = mongoose.connection;
+let gfs;
+
+conn.once('open', () => {
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection('uploads');
+});
+
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads'); // Specify the directory where you want to store files
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+app.use(express.json());
+
 app.post(
   '/api/:year/:department/:section/submitleaveform',
+  upload.single('file'),
   async (req, res) => {
     try {
       const { year, department, section, email } = req.body;
@@ -305,12 +359,19 @@ app.post(
         dep = await LeaveForm.create({ department });
       }
 
-      dep.students.push({
+      const fileData = {
         year,
         department,
         section,
         email,
-      });
+        file: {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+          filename: req.file.originalname,
+        },
+      };
+
+      dep.students.push(fileData);
 
       await dep.save();
 
@@ -320,6 +381,31 @@ app.post(
     }
   }
 );
+// Add this after initializing your Express app
+app.get('/api/files/:year/:department/:section', async (req, res) => {
+  try {
+    const { year, department, section } = req.params;
+
+    const dep = await LeaveForm.findOne({ department });
+
+    if (!dep) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+
+    const files = dep.students
+      .filter((student) => student.year === year && student.section === section)
+      .map((student) => ({
+        _id: student._id, // Use the actual identifier for your file
+        filename: student.file.filename,
+        email: student.email,
+      }));
+
+    res.json({ files });
+  } catch (error) {
+    console.error('Error fetching files:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 app.listen(4000, () => {
   console.log('Server running on 4000');
