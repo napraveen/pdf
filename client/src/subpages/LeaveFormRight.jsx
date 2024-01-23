@@ -5,6 +5,11 @@ import GetUserDetails from '../functions/GetUserDetails';
 import Left from '../subpages/Left';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+//firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
+
 const LeaveFormRight = () => {
   const { userDetails } = GetUserDetails();
   const [isAddStudentClassClicked, setisAddStudentClassClicked] =
@@ -12,6 +17,9 @@ const LeaveFormRight = () => {
   const addStudentClass = () => {
     setisAddStudentClassClicked(!isAddStudentClassClicked);
   };
+
+  //firebase
+  // const [imgUrl, setImgUrl] = useState('');
 
   const studentFormClass = {
     display: isAddStudentClassClicked ? 'none' : 'block',
@@ -28,6 +36,9 @@ const LeaveFormRight = () => {
     department: '',
     section: '',
     email: '',
+    name: '',
+    regNo: '',
+    imgUrl: '',
   });
 
   const [files, setFiles] = useState([]);
@@ -38,40 +49,58 @@ const LeaveFormRight = () => {
       year: userDetails?.year ?? '',
       department: userDetails?.department ?? '',
       section: userDetails?.section ?? '',
-      email: '',
+      email: userDetails?.email ?? '',
+      name: '',
+      regNo: '',
     });
 
-    const fetchFiles = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/api/files/${userDetails.year}/${userDetails.department}/${userDetails.section}`
-        );
-        // console.log('files' + JSON.stringify(response));
+    // const fetchFiles = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       `http://localhost:4000/api/files/${userDetails.year}/${userDetails.department}/${userDetails.section}`
+    //     );
+    //     // console.log('files' + JSON.stringify(response));
 
-        setFiles(response.data.files);
-      } catch (error) {
-        console.error('Error fetching files:', error);
-      }
-    };
+    //     setFiles(response.data.files);
+    //   } catch (error) {
+    //     console.error('Error fetching files:', error);
+    //   }
+    // };
 
-    if (userDetails) {
-      fetchFiles();
-    }
+    // if (userDetails) {
+    //   fetchFiles();
+    // }
   }, [userDetails]);
   console.log('Filesss:', files);
   const handleSubmitAddStudent = async (e) => {
     try {
       e.preventDefault();
-      const formData = new FormData();
-      formData.append('year', studentData.year);
-      formData.append('department', studentData.department);
-      formData.append('section', studentData.section);
-      formData.append('email', studentData.email);
-      formData.append('file', file);
+      //firebase
+      const currentISTTime = new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+      });
+      const formattedISTTime = currentISTTime.replace(/[/,:\sAPMapm]/g, '');
+
+      const fileName = `${formattedISTTime}`;
+      // const fileName = `${formattedISTTime}-{userDetails.regNo}`
+
+      const storageRef = firebase.storage().ref();
+      const fileRef = storageRef.child(`${fileName}`);
+      await fileRef.put(file);
+      const downloadURL = await fileRef.getDownloadURL();
+
+      // setStudentData((prevStudentData) => ({
+      //   ...prevStudentData,
+      //   imgUrl: downloadURL,
+      // }));
+      const updatedStudentData = {
+        ...studentData,
+        imgUrl: downloadURL,
+      };
 
       await axios.post(
         `http://localhost:4000/api/${userDetails.year}/${userDetails.department}/${userDetails.section}/submitleaveform`,
-        formData
+        updatedStudentData
       );
       // const { success, message } = data;
       setStudentData({
@@ -79,6 +108,9 @@ const LeaveFormRight = () => {
         department: '',
         section: '',
         email: '',
+        imgUrl: '',
+        name: '',
+        regNo: '',
       });
       setFile(null);
     } catch (err) {
@@ -162,6 +194,22 @@ const LeaveFormRight = () => {
                         onChange={handleChange}
                       />
                       <input
+                        type="text"
+                        name="name"
+                        value={studentData.name}
+                        className="signup-name"
+                        placeholder="Enter your Name"
+                        onChange={handleChange}
+                      />
+                      <input
+                        type="text"
+                        name="regNo"
+                        value={studentData.regNo}
+                        className="signup-regNo"
+                        placeholder="Enter your Register Number"
+                        onChange={handleChange}
+                      />
+                      <input
                         type="file"
                         name="file"
                         onChange={handleFileChange}
@@ -171,7 +219,8 @@ const LeaveFormRight = () => {
                     </form>
                   </div>
                   <div className="file-list">
-                    <h2>Uploaded Files:</h2>
+                    {/* <h2>Uploaded Files:</h2>
+
                     <ul>
                       {files.map((file) => (
                         <li key={file._id}>
@@ -187,7 +236,7 @@ const LeaveFormRight = () => {
                           </a>
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </div>

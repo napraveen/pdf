@@ -4,6 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+
+//firebase----
+import firebase from 'firebase/compat/app';
+const firebaseConfig = {
+  apiKey: 'AIzaSyCv2IfA_ALF7SztABrVAGRTOFl3qPyaHZc',
+  authDomain: 'attendance-projec.firebaseapp.com',
+  projectId: 'attendance-projec',
+  storageBucket: 'attendance-projec.appspot.com',
+  messagingSenderId: '905605930003',
+  appId: '1:905605930003:web:3cef638092ce5bc7a9f3e6',
+  measurementId: 'G-P4VH4G2MEJ',
+};
+firebase.initializeApp(firebaseConfig);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
