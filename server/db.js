@@ -131,6 +131,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
           B: [
@@ -205,6 +215,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
           C: [
@@ -275,6 +295,16 @@ const studentSchema = new mongoose.Schema({
                 },
               ],
               absentDates: [
+                {
+                  type: String,
+                },
+              ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
                 {
                   type: String,
                 },
@@ -357,6 +387,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
           B: [
@@ -431,6 +471,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
           C: [
@@ -501,6 +551,16 @@ const studentSchema = new mongoose.Schema({
                 },
               ],
               absentDates: [
+                {
+                  type: String,
+                },
+              ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
                 {
                   type: String,
                 },
@@ -583,6 +643,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
           B: [
@@ -657,6 +727,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
           C: [
@@ -727,6 +807,16 @@ const studentSchema = new mongoose.Schema({
                 },
               ],
               absentDates: [
+                {
+                  type: String,
+                },
+              ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
                 {
                   type: String,
                 },
@@ -809,6 +899,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
           B: [
@@ -879,6 +979,16 @@ const studentSchema = new mongoose.Schema({
                 },
               ],
               absentDates: [
+                {
+                  type: String,
+                },
+              ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
                 {
                   type: String,
                 },
@@ -957,6 +1067,16 @@ const studentSchema = new mongoose.Schema({
                   type: String,
                 },
               ],
+              unAppliedDates: [
+                {
+                  type: String,
+                },
+              ],
+              acceptedDates: [
+                {
+                  type: String,
+                },
+              ],
             },
           ],
         },
@@ -1000,6 +1120,20 @@ const leaveFormSchema = mongoose.Schema({
         type: String,
         required: false,
       },
+      reason: {
+        type: String,
+        required: false,
+      },
+      status: {
+        type: String,
+        required: false,
+      },
+      appliedDates: [
+        {
+          type: String,
+        },
+      ],
+
       // file: {
       //   data: Buffer,
       //   contentType: String,

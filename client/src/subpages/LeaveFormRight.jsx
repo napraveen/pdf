@@ -17,9 +17,11 @@ const LeaveFormRight = () => {
   const addStudentClass = () => {
     setisAddStudentClassClicked(!isAddStudentClassClicked);
   };
+  const [selectedDates, setSelectedDates] = useState([]);
 
   //firebase
   // const [imgUrl, setImgUrl] = useState('');
+  const [absentDates, setAbsentDates] = useState([]);
 
   const studentFormClass = {
     display: isAddStudentClassClicked ? 'none' : 'block',
@@ -39,6 +41,8 @@ const LeaveFormRight = () => {
     name: '',
     regNo: '',
     imgUrl: '',
+    reason: 'medicalleave',
+    selectedDates: '',
   });
 
   const [files, setFiles] = useState([]);
@@ -52,6 +56,8 @@ const LeaveFormRight = () => {
       email: userDetails?.email ?? '',
       name: '',
       regNo: '',
+      reason: 'medicalleave',
+      selectedDates: '',
     });
 
     // const fetchFiles = async () => {
@@ -70,6 +76,21 @@ const LeaveFormRight = () => {
     // if (userDetails) {
     //   fetchFiles();
     // }
+    const fetchAbsentDates = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/${userDetails.year}/${userDetails.department}/${userDetails.section}/${userDetails.email}/absentdates`
+        );
+
+        setAbsentDates(response.data.unAppliedDates);
+        console.log('hi ' + JSON.stringify(response.data.unAppliedDates));
+      } catch (error) {
+        console.error('Error fetching absent dates:', error);
+      }
+    };
+    if (userDetails) {
+      fetchAbsentDates();
+    }
   }, [userDetails]);
   console.log('Filesss:', files);
   const handleSubmitAddStudent = async (e) => {
@@ -81,13 +102,31 @@ const LeaveFormRight = () => {
       });
       const formattedISTTime = currentISTTime.replace(/[/,:\sAPMapm]/g, '');
 
-      const fileName = `${formattedISTTime}`;
-      // const fileName = `${formattedISTTime}-{userDetails.regNo}`
+      // const fileName = `${formattedISTTime}`;
+      // // const fileName = `${formattedISTTime}-{userDetails.regNo}`
 
-      const storageRef = firebase.storage().ref();
-      const fileRef = storageRef.child(`${fileName}`);
-      await fileRef.put(file);
-      const downloadURL = await fileRef.getDownloadURL();
+      // const storageRef = firebase.storage().ref();
+      // const fileRef = storageRef.child(`${fileName}`);
+      // await fileRef.put(file);
+      // const downloadURL = await fileRef.getDownloadURL();
+      let downloadURL = null;
+
+      if (file) {
+        const fileName = `${formattedISTTime}`;
+
+        const storageRef = firebase.storage().ref();
+        const fileRef = storageRef.child(`${fileName}`);
+
+        try {
+          await fileRef.put(file);
+          downloadURL = await fileRef.getDownloadURL();
+        } catch (error) {
+          console.error(
+            'Error uploading or getting download URL from Firebase:',
+            error
+          );
+        }
+      }
 
       // setStudentData((prevStudentData) => ({
       //   ...prevStudentData,
@@ -96,7 +135,10 @@ const LeaveFormRight = () => {
       const updatedStudentData = {
         ...studentData,
         imgUrl: downloadURL,
+        appliedDates: selectedDates,
       };
+
+      console.log('updatedstudentdata ' + JSON.stringify(updatedStudentData));
 
       await axios.post(
         `http://localhost:4000/api/${userDetails.year}/${userDetails.department}/${userDetails.section}/submitleaveform`,
@@ -111,10 +153,26 @@ const LeaveFormRight = () => {
         imgUrl: '',
         name: '',
         regNo: '',
+        reason: '',
       });
       setFile(null);
     } catch (err) {
       console.error('Error adding student:', err);
+    }
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { value } = e.target;
+
+    // Check if the value is already in the selectedDates array
+    if (selectedDates.includes(value)) {
+      // If it is, remove it
+      setSelectedDates((prevSelectedDates) =>
+        prevSelectedDates.filter((date) => date !== value)
+      );
+    } else {
+      // If it is not, add it
+      setSelectedDates((prevSelectedDates) => [...prevSelectedDates, value]);
     }
   };
 
@@ -144,7 +202,9 @@ const LeaveFormRight = () => {
                   menu2={
                     userDetails.category === 'student'
                       ? 'Leave Form'
-                      : 'DashBoard'
+                      : userDetails.category === 'hod'
+                      ? 'Leaveform'
+                      : 'Attendance'
                   }
                   menu3="Edit"
                   menu4="Calendar"
@@ -154,6 +214,8 @@ const LeaveFormRight = () => {
                   link2={
                     userDetails.category === 'student'
                       ? '/leaveform'
+                      : userDetails.category === 'hod'
+                      ? '/leaveform-hod'
                       : '/attendance'
                   }
                 />
@@ -215,28 +277,40 @@ const LeaveFormRight = () => {
                         onChange={handleFileChange}
                       />
 
+                      <label for="dropdown">Select an option:</label>
+                      <select
+                        id="lfr-reason-dropdown"
+                        name="reason"
+                        value={studentData.reason}
+                        onChange={handleChange}
+                      >
+                        <option value="medicalleave">Medical Leave</option>
+                        <option value="privilegeleave">Previlege Leave</option>
+                        <option value="others">Others</option>
+                      </select>
+                      {absentDates ? (
+                        <div className="lfr-leavedates">
+                          {absentDates.map((date) => (
+                            <div key={date} className="lfr-leavedate">
+                              <input
+                                type="checkbox"
+                                id={`absent-date-${date}`}
+                                name="absentDates"
+                                value={date}
+                                onChange={handleCheckboxChange}
+                              />
+                              <label htmlFor={`absent-date-${date}`}>
+                                {date}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+
                       <button type="submit">Submit</button>
                     </form>
-                  </div>
-                  <div className="file-list">
-                    {/* <h2>Uploaded Files:</h2>
-
-                    <ul>
-                      {files.map((file) => (
-                        <li key={file._id}>
-                          <p>
-                            <strong>Email: {file.email}</strong>
-                          </p>
-                          <a
-                            href={`http://localhost:4000/uploads/${file.filename}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {file.filename}
-                          </a>
-                        </li>
-                      ))}
-                    </ul> */}
                   </div>
                 </div>
               </div>

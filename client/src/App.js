@@ -6,6 +6,7 @@ import Attendance from './pages/Attendance';
 import Edit from './pages/Edit';
 import LeaveForm from './pages/LeaveForm';
 import LeaveFormMentor from './mentor/LeaveFormMentor';
+import LeaveFormHod from './hod/LeaveFormHod';
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
         <Route path="/edit" element={<Edit />} />
         <Route path="/leaveform" element={<LeaveForm />} />
         <Route path="/leaveform-mentor" element={<LeaveFormMentor />} />
+        <Route path="/leaveform-hod" element={<LeaveFormHod />} />
       </Routes>
     </div>
   );

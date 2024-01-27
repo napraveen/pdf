@@ -96,6 +96,7 @@ app.post(
             student.presentCount += 1;
           } else {
             student.absentDates.push(newDate);
+            student.unAppliedDates.push(newDate);
             student.absentCount += 1;
           }
         }
@@ -350,8 +351,17 @@ app.post(
   '/api/:year/:department/:section/submitleaveform',
   async (req, res) => {
     try {
-      const { year, department, section, email, name, regNo, imgUrl } =
-        req.body;
+      const {
+        year,
+        department,
+        section,
+        email,
+        name,
+        regNo,
+        imgUrl,
+        reason,
+        appliedDates,
+      } = req.body;
       console.log('imgurl ' + imgUrl);
       let dep = await LeaveForm.findOne({ department });
 
@@ -368,6 +378,8 @@ app.post(
         regNo,
         name,
         imgUrl,
+        appliedDates,
+        reason,
         // file: {
         //   data: req.file.buffer,
         //   contentType: req.file.mimetype,
@@ -404,6 +416,10 @@ app.get('/api/files/:year/:department/:section', async (req, res) => {
         email: student.email,
         name: student.name,
         regNo: student.regNo,
+        reason: student.reason,
+        department: student.department,
+        status: student.status,
+        dates: student.appliedDates,
       }));
 
     console.log(files);
@@ -415,6 +431,141 @@ app.get('/api/files/:year/:department/:section', async (req, res) => {
   }
 });
 
+app.get('/api/hod/files/:year/:department/:section', async (req, res) => {
+  try {
+    const { year, department, section } = req.params;
+
+    const dep = await LeaveForm.findOne({ department });
+
+    if (!dep) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+
+    const files = dep.students
+      .filter((student) => student.year === year)
+      .map((student) => ({
+        _id: student._id, // Use the actual identifier for your file
+        imgUrl: student.imgUrl,
+        email: student.email,
+        name: student.name,
+        regNo: student.regNo,
+        reason: student.reason,
+        year: student.year,
+        department: student.department,
+        section: student.section,
+        status: student.status,
+        dates: student.appliedDates,
+      }));
+
+    console.log('this file is ', files);
+
+    res.json({ files });
+  } catch (error) {
+    console.error('Error fetching files:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.post('/api/verified', async (req, res) => {
+  try {
+    let { id, department } = req.body;
+    console.log(id + ' ' + department);
+    const dep = await LeaveForm.findOne({ department });
+
+    if (!dep) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+
+    const student = dep.students.find((student) => student._id == id);
+    console.log(student);
+    student.status = 'verified';
+    await dep.save();
+
+    res.status(200).json({ message: 'Verification successful' });
+  } catch (error) {
+    console.error('Error in /api/verified:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/api/accepted', async (req, res) => {
+  try {
+    let { id, year, department, section, regNo, dates } = req.body;
+    console.log(id + ' ' + department);
+    const dep = await LeaveForm.findOne({ department });
+
+    if (!dep) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+
+    const student = dep.students.find((student) => student._id == id);
+    console.log(student);
+    student.status = 'accepted';
+    await dep.save();
+
+    const stud_department = await Student.findOne({
+      department: department,
+    });
+
+    const sectionToLoop = stud_department.students[0][year][0][section];
+
+    const stud = sectionToLoop.filter(
+      (student) => student.registerNo === regNo
+    );
+    // const newDate = new Date().toISOString().slice(0, 10);
+    // stud[0].acceptedDates.push(dates);
+    dates.forEach((date) => {
+      stud[0].acceptedDates.push(date);
+    });
+    await stud_department.save();
+    console.log('stud ', stud[0]);
+
+    res.status(200).json({ message: 'Accepted successfuly' });
+  } catch (error) {
+    console.error('Error in /api/accepted:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/api/rejected', async (req, res) => {
+  try {
+    let { id, department } = req.body;
+    console.log(id + ' ' + department);
+    const dep = await LeaveForm.findOne({ department });
+
+    if (!dep) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+
+    const student = dep.students.find((student) => student._id == id);
+    console.log(student);
+    student.status = 'rejected';
+    await dep.save();
+
+    res.status(200).json({ message: 'Rejected Successfully' });
+  } catch (error) {
+    console.error('Error in /api/rejected:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get(
+  '/api/:year/:department/:section/:email/absentdates',
+  async (req, res) => {
+    const dep = req.params.department;
+    const year = req.params.year;
+    const section = req.params.section;
+    const department = await Student.findOne({
+      department: dep,
+    });
+    const email = req.params.email;
+    const sectionToLoop = department.students[0][year][0][section];
+    const student = sectionToLoop.filter((student) => student.email === email);
+    const unAppliedDates = student[0]?.unAppliedDates;
+
+    res.status(200).json({ unAppliedDates });
+  }
+);
 app.listen(4000, () => {
   console.log('Server running on 4000');
 });

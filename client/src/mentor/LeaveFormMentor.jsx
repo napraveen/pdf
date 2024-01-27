@@ -24,7 +24,11 @@ const LeaveForm = () => {
             iconText6="white"
             menu1="Dashboard"
             menu2={
-              userDetails.category === 'student' ? 'Leave Form' : 'DashBoard'
+              userDetails.category === 'student'
+                ? 'Leave Form'
+                : userDetails.category === 'hod'
+                ? 'Leaveform'
+                : 'Attendance'
             }
             menu3="Edit"
             menu4="Calendar"
@@ -32,7 +36,11 @@ const LeaveForm = () => {
             menu6={userDetails.category === 'mentor' ? 'Leave Form' : ''}
             link1="/"
             link2={
-              userDetails.category === 'student' ? '/leaveform' : '/attendance'
+              userDetails.category === 'student'
+                ? '/leaveform'
+                : userDetails.category === 'hod'
+                ? '/leaveform-hod'
+                : '/attendance'
             }
           />
           <LFMRight />

@@ -105,3 +105,29 @@
     margin-top: 10%;
   }
 }
+
+.lfr-leavedates {
+  display: flex;
+}
+.lfr-leavedates input {
+  width: 10px;
+}
+/* Add this to your leaveform.css file or create a new CSS file */
+
+/* Style for checkbox container */
+.lfr-leavedate {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Style for the checkbox itself */
+.lfr-leavedate input[type='checkbox'] {
+  margin-top: 20px;
+  margin-right: 10px; /* Adjust spacing between checkbox and label */
+}
+
+.lfr-leavedate label {
+  margin-top: 20px;
+  margin-right: 20px;
+}

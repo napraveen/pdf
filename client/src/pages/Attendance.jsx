@@ -122,6 +122,8 @@ const Attendance = () => {
                   menu2={
                     userDetails.category === 'student'
                       ? 'Leave Form'
+                      : userDetails.category === 'hod'
+                      ? 'Leaveform'
                       : 'Attendance'
                   }
                   menu3="Edit"
@@ -132,6 +134,8 @@ const Attendance = () => {
                   link2={
                     userDetails.category === 'student'
                       ? '/leaveform'
+                      : userDetails.category === 'hod'
+                      ? '/leaveform-hod'
                       : '/attendance'
                   }
                 />

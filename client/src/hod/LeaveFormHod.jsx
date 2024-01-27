@@ -1,11 +1,11 @@
 import React from 'react';
+import LFHRight from './LFHRight';
 import Left from '../subpages/Left';
 import GetUserDetails from '../functions/GetUserDetails';
-import LeaveFormRight from '../subpages/LeaveFormRight';
-const LeaveForm = () => {
+const LeaveFormHod = () => {
   const { userDetails } = GetUserDetails();
   return (
-    <div>
+    <>
       {userDetails ? (
         <div>
           <Left
@@ -19,6 +19,8 @@ const LeaveForm = () => {
             iconText4=""
             iconBg5=""
             iconText5=""
+            iconBg6=""
+            iconText6=""
             menu1="Dashboard"
             menu2={
               userDetails.category === 'student'
@@ -40,13 +42,13 @@ const LeaveForm = () => {
                 : '/attendance'
             }
           />
-          <LeaveFormRight />
+          <LFHRight />
         </div>
       ) : (
         <h1>hi</h1>
       )}
-    </div>
+    </>
   );
 };
 
-export default LeaveForm;
+export default LeaveFormHod;

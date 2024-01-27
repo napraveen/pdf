@@ -70,7 +70,9 @@ const Home = () => {
                   menu2={
                     userDetails.category === 'student'
                       ? 'Leave Form'
-                      : 'DashBoard'
+                      : userDetails.category === 'hod'
+                      ? 'Leaveform'
+                      : 'Attendance'
                   }
                   menu3="Edit"
                   menu4="Calendar"
@@ -80,6 +82,8 @@ const Home = () => {
                   link2={
                     userDetails.category === 'student'
                       ? '/leaveform'
+                      : userDetails.category === 'hod'
+                      ? '/leaveform-hod'
                       : '/attendance'
                   }
                 />
